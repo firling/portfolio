@@ -10,5 +10,10 @@
 
 html {
   min-height: 100vh;
-  padding-top: 80px;
+  /* padding-top: 80px; */
+}
+
+.bg-pattern {
+  background-image: url(/pattern.png);
+  background-size: 36rem;
 }
