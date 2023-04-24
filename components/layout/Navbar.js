@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import logo from '/public/logo.png'
 
 function NavLink({to, children}) {
     return <Link href={to} className={`mx-4`}>
@@ -15,7 +16,7 @@ function MobileNav({open, setOpen}) {
                 <Link className="text-xl font-semibold" href="/">
                     <Image 
                         alt='julien anquetil logo'
-                        src={'/logo.png'}
+                        src={logo}
                         width='100'
                         height='100'
                     />
@@ -42,7 +43,7 @@ export default function Navbar() {
                 <Link className="text-2xl font-semibold" href="/">
                     <Image 
                         alt='julien anquetil logo'
-                        src={'/logo.png'}
+                        src={logo}
                         width='100'
                         height='100'
                     />
