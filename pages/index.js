@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google'
 import Hero from '@/components/layout/Hero'
+import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,14 +14,14 @@ export default function Home() {
           & Auto entrepreneur depuis 3 ans
         </p>
         <div className='mt-6 flex space-x-4 justify-center'>
-          <a href='#about' className="group transition duration-300">
+          <Link href='#about' className="group transition duration-300">
             → En savoir plus
             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-white"></span>
-          </a>
-          <a href='#project' className="group transition duration-300">
+          </Link>
+          <Link href='#project' className="group transition duration-300">
             → Découvrir mes projets
             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-white"></span>
-          </a>
+          </Link>
         </div>
         
       </Hero>
