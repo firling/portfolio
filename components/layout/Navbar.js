@@ -13,6 +13,7 @@ function MobileNav({open, setOpen}) {
             <div className="flex items-center justify-center filter drop-shadow-md bg-stone-900 h-20"> {/*logo container*/}
                 <a className="text-xl font-semibold" href="/">
                     <Image 
+                        alt='julien anquetil logo'
                         src={'/logo.png'}
                         width='100'
                         height='100'
@@ -39,6 +40,7 @@ export default function Navbar() {
             <div className="w-2/12 flex items-center">
                 <a className="text-2xl font-semibold" href="/">
                     <Image 
+                        alt='julien anquetil logo'
                         src={'/logo.png'}
                         width='100'
                         height='100'

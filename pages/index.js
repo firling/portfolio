@@ -15,11 +15,11 @@ export default function Home() {
         <div className='mt-6 flex space-x-4 justify-center'>
           <a href='#about' className="group transition duration-300">
             → En savoir plus
-            <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-white"></span>
+            <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-white"></span>
           </a>
           <a href='#project' className="group transition duration-300">
             → Découvrir mes projets
-            <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-white"></span>
+            <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-white"></span>
           </a>
         </div>
         
