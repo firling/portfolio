@@ -27,6 +27,17 @@ export default function Home() {
       </Hero>
       <section id='about' className="bg-stone-800 bg-pattern bg-repeat bg-center bg-fixed">
         <div className='container mx-auto'>
+          zizon <br />
+          zizon <br />
+          zizon <br />
+          zizon <br />
+          zizon <br />
+          zizon <br />
+          zizon <br />
+          zizon <br />
+          zizon <br />
+          zizon <br />
+          zizon <br />
         </div>
       </section>
     </>
