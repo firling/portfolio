@@ -1,10 +1,11 @@
 import Navbar from '@/components/layout/Navbar'
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 
 const Hero = ({children}) => {
     const { scrollYProgress } = useScroll();
-    const scaleFirst = useTransform(scrollYProgress, [0, 1], [0, 500]);
-    const scaleSecond = useTransform(scrollYProgress, [0, 1], [0, -500]);
+    const scaleFirst = useTransform(scrollYProgress, [0, 1], ["0vh", "50vh"]);
+    const scaleSecond = useTransform(scrollYProgress, [0, 1], ["0vh", "-50vh"]);
 
     return (
         <div className="isolate bg-stone-900 h-screen flex flex-col overflow-x-hidden">

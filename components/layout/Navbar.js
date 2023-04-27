@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import logo from '/public/logo.png'
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 function NavLink({to, children}) {
     return <Link href={to} className={`mx-4`}>
@@ -37,9 +38,9 @@ function MobileNav({open, setOpen}) {
 export default function Navbar() {
     const [open, setOpen] = useState(false)
     return (
-        <nav className="flex filter drop-shadow-md px-10 py-4 h-20 items-center">
+        <nav className="flex filter drop-shadow-md px-10 md:px-24 lg:px-40 py-4 h-20 items-center fixed w-screen">
             <MobileNav open={open} setOpen={setOpen}/>
-            <div className="w-2/12 flex items-center">
+            <div className="w-4/12 md:w-2/12 flex items-center">
                 <Link className="text-2xl font-semibold" href="/">
                     <Image 
                         alt='julien anquetil logo'
@@ -59,7 +60,15 @@ export default function Navbar() {
                     </NavLink>
                 </div>
             </div>
-            <div className="w-2/12 flex justify-end items-center">
+            <div className="w-8/12 md:w-2/12 flex justify-end  items-center">
+
+                <a className="text-2xl mx-4" target='_blank' href="https://github.com/firling">
+                    <FaGithub />
+                </a>
+
+                <a className="text-2xl mx-4" target='_blank' href="https://www.linkedin.com/in/julien-anquetil/">
+                    <FaLinkedin />
+                </a>
 
                 <div className="z-50 flex relative w-8 h-8 flex-col justify-between items-center md:hidden" onClick={() => {
                     setOpen(!open)
