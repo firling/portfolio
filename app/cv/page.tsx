@@ -11,11 +11,11 @@ const experiences = [
     type: 'CDI',
     description: 'Seul développeur de l\'équipe, en charge du cycle complet : développement, infrastructure, mise en production et support.',
     achievements: [
-      'Développement du backend en Nest.js avec architecture microservices',
-      'Mise en place serveur WebSocket (Socket.io) pour communication temps réel',
-      'Développement frontend React.js avec TypeScript, Redux, TanStack, Mantine',
-      'Automatisation CI/CD avec GitLab CI',
-      'Développement SkolBox (Express.js/React) avec scripts PowerShell'
+      'Développement du backend en **Nest.js** avec architecture microservices',
+      'Mise en place serveur **WebSocket** (Socket.io) pour communication temps réel',
+      'Développement frontend **React.js** avec **TypeScript**, **Redux**, **TanStack**, **Mantine**',
+      'Automatisation CI/CD avec **GitLab CI**',
+      'Développement SkolBox (**Express.js**/**React**) avec scripts **PowerShell**'
     ],
     technologies: ['Nest.js', 'React.js', 'TypeScript', 'GitLab CI']
   },
@@ -26,8 +26,8 @@ const experiences = [
     period: 'Mai 2020 - Fév. 2022',
     type: 'Freelance',
     achievements: [
-      'Application de génération de Leads (Laravel, Vue.js, Node.js)',
-      'Plateforme de mise en relation diagnostiqueurs immobiliers (Symfony)'
+      'Application de génération de Leads (**Laravel**, **Vue.js**, **Node.js**)',
+      'Plateforme de mise en relation diagnostiqueurs immobiliers (**Symfony**)'
     ],
     technologies: ['Laravel', 'Vue.js', 'React.js', 'Python']
   },
@@ -38,7 +38,7 @@ const experiences = [
     period: 'Sept. 2020 - Juil. 2021',
     type: 'Alternance',
     achievements: [
-      'Application React.js/Python de cartographie des infrastructures',
+      'Application **React.js**/**Python** de cartographie des infrastructures',
       'Identification des vulnérabilités cyber'
     ],
     technologies: ['React.js', 'Python']
@@ -83,11 +83,11 @@ const education = [
 
 export default function CVPage() {
   return (
-    <div className="min-h-screen bg-white p-8">
+    <div className="min-h-screen bg-white p-8 print:p-0">
       {/* Container A4 */}
-      <div className="max-w-[210mm] mx-auto bg-white shadow-lg print:shadow-none">
+      <div className="max-w-[210mm] mx-auto bg-white shadow-lg print:shadow-none print:max-w-full">
         {/* Page A4 */}
-        <div className="w-[210mm] h-[297mm] p-8 print:p-12 flex flex-col">
+        <div className="w-[210mm] print:w-full min-h-[297mm] print:min-h-0 p-8 print:p-12 flex flex-col">
           {/* Header */}
           <header className="mb-6 pb-4 border-b-2 border-gray-300">
             <div className="flex items-start gap-4">
@@ -103,9 +103,36 @@ export default function CVPage() {
                 <h1 className="text-3xl font-bold text-gray-900 mb-1">Julien ANQUETIL</h1>
                 <p className="text-lg text-gray-700 font-medium mb-2">Développeur Full-Stack</p>
                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
-                  <span>📧 julien@anquetil.org</span>
+                  <span>✉️ julien@anquetil.org</span>
                   <span>📍 Annecy, France</span>
                   <span>🎂 25 ans</span>
+                </div>
+                <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 mt-2">
+                  <a href="https://julien.anquetil.org" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600">
+                    🌐 julien.anquetil.org
+                  </a>
+                  <a href="https://linkedin.com/in/julien-anquetil" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-blue-600">
+                    <div className="relative w-3 h-3 flex-shrink-0">
+                      <Image
+                        src="/logo/linkedin.png"
+                        alt="LinkedIn"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    @julien-anquetil
+                  </a>
+                  <a href="https://github.com/firling" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-blue-600">
+                    <div className="relative w-3 h-3 flex-shrink-0">
+                      <Image
+                        src="/logo/github.png"
+                        alt="GitHub"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    @firling
+                  </a>
                 </div>
               </div>
             </div>
@@ -141,7 +168,7 @@ export default function CVPage() {
                         {exp.achievements.map((achievement, j) => (
                           <li key={j} className="text-xs text-gray-700 flex gap-1">
                             <span className="text-blue-600">•</span>
-                            <span>{achievement}</span>
+                            <span dangerouslySetInnerHTML={{ __html: achievement.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
                           </li>
                         ))}
                       </ul>
@@ -205,14 +232,17 @@ export default function CVPage() {
                   {projects.map((project, i) => (
                     <div key={i} className="text-xs">
                       <h3 className="font-bold text-gray-900 text-sm">
-                        {project.link ? (
-                          <span className="text-blue-600">{project.name}</span>
-                        ) : (
-                          project.name
-                        )}
+                        {project.name}
                       </h3>
                       {project.link && (
-                        <p className="text-xs text-gray-500">{project.link}</p>
+                        <a
+                          href={`https://${project.link}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-gray-500 hover:text-blue-600"
+                        >
+                          {project.link}
+                        </a>
                       )}
                       <p className="text-gray-600 mb-1">{project.description}</p>
                       <div className="flex flex-wrap gap-1">
