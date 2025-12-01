@@ -10,6 +10,8 @@ export const techLogos: Record<string, string> = {
   'Java': '/logo/java.png',
   'Angular': '/logo/angular.png',
   'GitLab CI': '/logo/gitlab.png',
+  'Docker': '/logo/docker.svg',
+  'Kubernetes': '/logo/kubernetes.png',
 }
 
 export function getTechLogo(techName: string): string | null {

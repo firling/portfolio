@@ -16,6 +16,8 @@ const skills = {
     { name: 'Angular', logo: '/logo/angular.png' }
   ],
   ops: [
+    { name: 'Docker', logo: '/logo/docker.svg' },
+    { name: 'Kubernetes', logo: '/logo/kubernetes.png' },
     { name: 'GitLab CI', logo: '/logo/gitlab.png' }
   ],
   languages_spoken: [

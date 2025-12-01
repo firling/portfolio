@@ -72,7 +72,7 @@ const projects = [
 const skills = {
   languages: ['TypeScript', 'PHP', 'Python', 'Java'],
   frameworks: ['React.js', 'Next.js', 'Nest.js', 'Laravel', 'Vue.js'],
-  ops: ['Docker', 'Kubernetes', 'GitLab CI', 'Git']
+  ops: ['Docker', 'Kubernetes', 'GitLab CI']
 }
 
 const education = [
