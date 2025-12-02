@@ -83,13 +83,13 @@ const education = [
 
 export default function CVPage() {
   return (
-    <div className="min-h-screen bg-white p-4 md:p-8 print:p-0">
+    <div className="min-h-screen bg-white p-4 md:p-8 print:p-0 print:min-h-0">
       {/* Container A4 */}
       <div className="w-full max-w-full md:max-w-[210mm] mx-auto bg-white md:shadow-lg print:shadow-none print:max-w-full">
         {/* Page A4 */}
-        <div className="w-full md:w-[210mm] print:w-full min-h-0 print:min-h-0 p-4 md:p-8 print:p-12 flex flex-col">
+        <div className="w-full md:w-[210mm] print:w-full p-4 md:p-8 print:p-8 flex flex-col">
           {/* Header */}
-          <header className="mb-4 md:mb-6 pb-4 border-b-2 border-gray-300">
+          <header className="mb-4 md:mb-6 print:mb-4 pb-4 print:pb-3 border-b-2 border-gray-300">
             <div className="flex items-start gap-3 md:gap-4">
               <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-gray-300 flex-shrink-0">
                 <Image
@@ -143,15 +143,15 @@ export default function CVPage() {
           </header>
 
           {/* Main content grid */}
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-4 md:gap-6">
+          <div className="flex-1 grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-4 md:gap-6 print:gap-4">
             {/* Colonne principale (2/3) */}
-            <div className="md:col-span-2 print:col-span-2 space-y-4">
+            <div className="md:col-span-2 print:col-span-2 space-y-4 print:space-y-3">
               {/* Expériences */}
               <section>
-                <h2 className="text-xl font-bold text-gray-900 mb-3 pb-1 border-b border-gray-300">
+                <h2 className="text-xl font-bold text-gray-900 mb-3 print:mb-2 pb-1 border-b border-gray-300">
                   Expériences professionnelles
                 </h2>
-                <div className="space-y-3">
+                <div className="space-y-3 print:space-y-2">
                   {experiences.map((exp, i) => (
                     <div key={i} className="text-sm">
                       <div className="flex justify-between items-start mb-1">

@@ -102,9 +102,15 @@ html {
     box-shadow: none !important;
   }
 
-  /* Force proper sizing on print */
+  /* Éviter les sauts de page non désirés */
+  * {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Forcer le contenu sur une seule page */
   html, body {
-    width: 210mm;
-    height: 297mm;
+    height: auto !important;
+    overflow: visible !important;
   }
 }
