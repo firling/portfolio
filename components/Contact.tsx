@@ -36,14 +36,11 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="py-20 px-6 bg-gray-900">
+    <section id="contact" className="py-16 px-6">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-4xl font-bold mb-4 text-center bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+        <h2 className="text-2xl font-semibold mb-8 text-gray-300">
           Me contacter
         </h2>
-        <p className="text-gray-400 text-center mb-12">
-          Vous avez un projet ? Une question ? N'hésitez pas à me contacter.
-        </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
