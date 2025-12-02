@@ -2,6 +2,7 @@ import Hero from '@/components/Hero'
 import Experience from '@/components/Experience'
 import Projects from '@/components/Projects'
 import SkillsAndEducation from '@/components/SkillsAndEducation'
+import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
 
 export default function Home() {
@@ -12,7 +13,12 @@ export default function Home() {
         <Experience />
         <Projects />
         <SkillsAndEducation />
-        <Footer />
+      </div>
+      <Contact />
+      <div className="bg-zinc-950 py-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Footer />
+        </div>
       </div>
     </main>
   )
