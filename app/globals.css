@@ -92,6 +92,8 @@ html {
 
   body {
     background: white !important;
+    height: auto !important;
+    overflow: visible !important;
   }
 
   .print\:hidden {
@@ -100,17 +102,5 @@ html {
 
   .print\:shadow-none {
     box-shadow: none !important;
-  }
-
-  /* Éviter les sauts de page non désirés */
-  * {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-
-  /* Forcer le contenu sur une seule page */
-  html, body {
-    height: auto !important;
-    overflow: visible !important;
   }
 }
