@@ -83,15 +83,15 @@ const education = [
 
 export default function CVPage() {
   return (
-    <div className="min-h-screen bg-white p-8 print:p-0">
+    <div className="min-h-screen bg-white p-4 md:p-8 print:p-0">
       {/* Container A4 */}
-      <div className="max-w-[210mm] mx-auto bg-white shadow-lg print:shadow-none print:max-w-full">
+      <div className="w-full max-w-full md:max-w-[210mm] mx-auto bg-white md:shadow-lg print:shadow-none print:max-w-full">
         {/* Page A4 */}
-        <div className="w-[210mm] print:w-full min-h-[297mm] print:min-h-0 p-8 print:p-12 flex flex-col">
+        <div className="w-full md:w-[210mm] print:w-full min-h-0 print:min-h-0 p-4 md:p-8 print:p-12 flex flex-col">
           {/* Header */}
-          <header className="mb-6 pb-4 border-b-2 border-gray-300">
-            <div className="flex items-start gap-4">
-              <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-gray-300 flex-shrink-0">
+          <header className="mb-4 md:mb-6 pb-4 border-b-2 border-gray-300">
+            <div className="flex items-start gap-3 md:gap-4">
+              <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-gray-300 flex-shrink-0">
                 <Image
                   src="/profile.png"
                   alt="Julien Anquetil"
@@ -100,9 +100,9 @@ export default function CVPage() {
                 />
               </div>
               <div className="flex-1">
-                <h1 className="text-3xl font-bold text-gray-900 mb-1">Julien ANQUETIL</h1>
-                <p className="text-lg text-gray-700 font-medium mb-2">Développeur Full-Stack</p>
-                <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">Julien ANQUETIL</h1>
+                <p className="text-base md:text-lg text-gray-700 font-medium mb-2">Développeur Full-Stack</p>
+                <div className="flex flex-wrap gap-x-3 md:gap-x-4 gap-y-1 text-xs md:text-sm text-gray-600">
                   <span>✉️ julien@anquetil.org</span>
                   <span>📍 Annecy, France</span>
                   <span>🎂 25 ans</span>
@@ -143,9 +143,9 @@ export default function CVPage() {
           </header>
 
           {/* Main content grid */}
-          <div className="flex-1 grid grid-cols-3 gap-6">
+          <div className="flex-1 grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-4 md:gap-6">
             {/* Colonne principale (2/3) */}
-            <div className="col-span-2 space-y-4">
+            <div className="md:col-span-2 print:col-span-2 space-y-4">
               {/* Expériences */}
               <section>
                 <h2 className="text-xl font-bold text-gray-900 mb-3 pb-1 border-b border-gray-300">
