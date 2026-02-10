@@ -47,6 +47,12 @@ const experiences = [
 
 const projects = [
   {
+    name: 'Pledgr',
+    link: 'pledgr.fr',
+    description: 'Plateforme de fidélité pour restaurants',
+    tech: ['Next.js', 'TypeScript', 'PostgreSQL']
+  },
+  {
     name: 'Le Ciselé',
     link: 'lecisele.fr',
     description: 'Site vitrine traiteur gastronomique',
@@ -56,11 +62,6 @@ const projects = [
     name: 'SkiOnLive',
     description: 'Plateforme diffusion stations de ski',
     tech: ['Nest.js', 'React.js', 'WebSocket']
-  },
-  {
-    name: 'SkolBox',
-    description: 'Boîtier diffusion Windows',
-    tech: ['Express.js', 'React.js']
   },
   {
     name: 'Livecam Trinum',

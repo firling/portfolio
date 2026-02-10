@@ -68,21 +68,6 @@ const projects = [
     company: 'Trinum',
     image: null
   },
-  {
-    name: 'SkolBox',
-    description: 'Boîtier de diffusion Windows synchronisé en temps réel avec le backoffice via WebSocket. Scripts de déploiement automatisés.',
-    highlights: [
-      'Application desktop avec **Express.js** et **React**',
-      'Synchronisation temps réel avec **WebSocket**',
-      'Scripts de déploiement **bat** et **PowerShell**',
-      'Gestion des mises à jour automatiques'
-    ],
-    technologies: ['Express.js', 'React.js', 'WebSocket', 'PowerShell', 'Windows'],
-    category: 'Application Desktop',
-    link: null,
-    company: 'Trinum',
-    image: null
-  }
 ]
 
 export default function Projects() {
