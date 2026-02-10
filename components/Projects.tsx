@@ -3,6 +3,23 @@ import { getTechLogo } from '@/lib/techLogos'
 
 const projects = [
   {
+    name: 'Pledgr',
+    description: 'Plateforme de fidélité pour restaurants. Interface tablette sans téléchargement d\'app, intégration caisse et dashboard de gestion en temps réel.',
+    highlights: [
+      'Architecture monorepo avec **Next.js 15** et **React 19**',
+      'Base de données **PostgreSQL** avec **Drizzle ORM**',
+      'Communication temps réel via **Socket.io**',
+      'Application **PWA** avec **Serwist** pour une expérience native',
+      'Personnalisation white-label (couleurs, logo, sous-domaine)',
+      'Intégration caisse **Popina** pour le crédit automatique de points',
+    ],
+    technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'PostgreSQL', 'Drizzle', 'Socket.io', 'React.js'],
+    category: 'Application Web Full-Stack',
+    link: 'https://pledgr.fr',
+    company: null,
+    image: '/projects/pledgr.png'
+  },
+  {
     name: 'Le Ciselé',
     description: 'Site vitrine moderne pour un traiteur gastronomique à emporter. Interface élégante avec animations fluides et effets visuels raffinés.',
     highlights: [
