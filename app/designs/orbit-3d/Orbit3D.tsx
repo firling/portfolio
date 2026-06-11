@@ -424,13 +424,9 @@ export default function Orbit3D() {
     }
 
     const clamp01 = (v: number) => Math.min(1, Math.max(0, v))
-    // Pause aux étapes : la rotation ne se fait que sur les 40 % centraux de chaque chapitre
-    const ramp = (t: number) => {
-      if (t <= 0.3) return 0
-      if (t >= 0.7) return 1
-      const u = (t - 0.3) / 0.4
-      return u * u * (3 - 2 * u)
-    }
+    // Easing continu : ralenti près des étapes mais jamais de zone morte,
+    // sinon les crans de la molette semblent ne rien faire (effet "site buggé")
+    const ramp = (t: number) => t * t * (3 - 2 * t)
 
     const render = (p: number) => {
       const journey = clamp01(p)
@@ -531,10 +527,20 @@ export default function Orbit3D() {
       if (rail) rail.style.opacity = `${clamp01(p / 0.65)}`
     }
 
+    // Snap doux pour la molette : quand le scroll s'arrête entre deux étapes,
+    // on glisse vers la plus proche (jamais pendant un drag de barre de scroll)
+    let lastScrolled = -1
+    let idleFrames = 0
+    let lastWheel = 0
+    const onWheel = () => {
+      lastWheel = performance.now()
+    }
+
     const tick = () => {
       const total = wrapper.offsetHeight - window.innerHeight
       const chapter = total / (N - 1)
-      const scrolled = Math.min(Math.max(-wrapper.getBoundingClientRect().top, 0), total)
+      const top = wrapper.getBoundingClientRect().top
+      const scrolled = Math.min(Math.max(-top, 0), total)
       const pRaw = scrolled / chapter
       const i = Math.floor(pRaw)
       const target = Math.min(i + ramp(pRaw - i), N - 1)
@@ -546,15 +552,35 @@ export default function Orbit3D() {
         lastActive = act
         setActive(act)
       }
+
+      if (Math.abs(scrolled - lastScrolled) > 0.5) {
+        lastScrolled = scrolled
+        idleFrames = 0
+      } else {
+        idleFrames++
+      }
+      const frac = pRaw - i
+      if (
+        !reduced &&
+        idleFrames === 18 &&
+        frac > 0.06 &&
+        frac < 0.94 &&
+        performance.now() - lastWheel < 2500
+      ) {
+        window.scrollTo({ top: window.scrollY + top + Math.round(pRaw) * chapter, behavior: 'smooth' })
+      }
+
       raf = requestAnimationFrame(tick)
     }
 
     measure()
     window.addEventListener('resize', measure)
+    window.addEventListener('wheel', onWheel, { passive: true })
     raf = requestAnimationFrame(tick)
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', measure)
+      window.removeEventListener('wheel', onWheel)
     }
   }, [])
 
