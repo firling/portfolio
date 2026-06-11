@@ -127,8 +127,12 @@ function TechChip({ name, variant = 'indigo' }: { name: string; variant?: 'indig
 }
 
 /* ── Accordéon pour les détails (highlights / réalisations) ── */
+// Ouvert par défaut sur desktop (la fiche a la place), replié sur mobile
 function Details({ label, items }: { label: string; items: string[] }) {
   const [open, setOpen] = useState(false)
+  useEffect(() => {
+    if (window.matchMedia('(min-width: 768px)').matches) setOpen(true)
+  }, [])
   return (
     <div className="border-t border-white/10 mt-4 pt-3">
       <button
@@ -527,11 +531,14 @@ export default function Orbit3D() {
       if (rail) rail.style.opacity = `${clamp01(p / 0.65)}`
     }
 
-    // Snap doux pour la molette : quand le scroll s'arrête entre deux étapes,
-    // on glisse vers la plus proche (jamais pendant un drag de barre de scroll)
+    // Snap directionnel pour la molette : à l'arrêt du scroll, on continue
+    // dans le sens du mouvement dès qu'on a dépassé 10 % du chapitre — un seul
+    // cran suffit pour avancer, et on ne revient jamais en arrière.
+    // (jamais pendant un drag de barre de scroll : déclenché par la molette uniquement)
     let lastScrolled = -1
     let idleFrames = 0
     let lastWheel = 0
+    let scrollDir = 0
     const onWheel = () => {
       lastWheel = performance.now()
     }
@@ -554,6 +561,7 @@ export default function Orbit3D() {
       }
 
       if (Math.abs(scrolled - lastScrolled) > 0.5) {
+        scrollDir = Math.sign(scrolled - lastScrolled)
         lastScrolled = scrolled
         idleFrames = 0
       } else {
@@ -562,12 +570,16 @@ export default function Orbit3D() {
       const frac = pRaw - i
       if (
         !reduced &&
-        idleFrames === 18 &&
-        frac > 0.06 &&
-        frac < 0.94 &&
+        idleFrames === 12 &&
+        frac > 0.04 &&
+        frac < 0.96 &&
         performance.now() - lastWheel < 2500
       ) {
-        window.scrollTo({ top: window.scrollY + top + Math.round(pRaw) * chapter, behavior: 'smooth' })
+        let snapTo = Math.round(pRaw)
+        if (scrollDir > 0 && frac > 0.1) snapTo = i + 1
+        else if (scrollDir < 0 && frac < 0.9) snapTo = i
+        snapTo = Math.min(Math.max(snapTo, 0), N - 1)
+        window.scrollTo({ top: window.scrollY + top + snapTo * chapter, behavior: 'smooth' })
       }
 
       raf = requestAnimationFrame(tick)
