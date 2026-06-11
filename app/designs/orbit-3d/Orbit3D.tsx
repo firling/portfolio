@@ -171,6 +171,41 @@ function Details({ label, items }: { label: string; items: string[] }) {
 
 const glass = 'bg-[#0a0c1c]/80 backdrop-blur-md border border-white/10 rounded-2xl'
 
+/* ── Apparition au scroll (parcours mobile) ── */
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true)
+          obs.disconnect()
+        }
+      },
+      { threshold: 0.15 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(32px)',
+        transition: `opacity .7s ease ${delay}ms, transform .7s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
 /* ── Les trois systèmes du voyage : chacun a sa couleur et sa forme d'orbite ── */
 interface SystemDef {
   title: string
@@ -307,7 +342,7 @@ function StopCard({ stop, pos, count }: { stop: Stop; pos: number; count: number
       <>
         {header}
         {p.image && (
-          <div className="relative w-full h-32 rounded-xl overflow-hidden mb-4 hidden md:block">
+          <div className="relative w-full h-32 sm:h-36 rounded-xl overflow-hidden mb-4">
             <Image src={p.image} alt={p.name} fill className="object-cover opacity-90" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0c1c] via-transparent to-transparent" />
           </div>
@@ -384,6 +419,101 @@ function StopCard({ stop, pos, count }: { stop: Stop; pos: number; count: number
         </p>
       </div>
     </>
+  )
+}
+
+/* ── Parcours mobile : linéaire, scroll natif, mêmes contenus ── */
+function MobileVoyage() {
+  return (
+    <div className="md:hidden relative">
+      {/* Héros */}
+      <section className="min-h-[100svh] flex flex-col items-center justify-center text-center px-6">
+        <div
+          className="relative w-28 h-28 rounded-full overflow-hidden border border-indigo-300/40 mb-8"
+          style={{ boxShadow: '0 0 50px rgba(129,140,248,0.7), 0 0 120px rgba(99,102,241,0.35)' }}
+        >
+          <Image src="/profile.png" alt="Julien Anquetil" fill className="object-cover" sizes="112px" />
+        </div>
+        <p className="text-cyan-300/80 tracking-[0.4em] uppercase text-xs mb-5">
+          Transmission entrante · {profile.location}
+        </p>
+        <h1
+          className="font-bold leading-none mb-4 text-5xl"
+          style={{
+            background: 'linear-gradient(180deg, #fff 30%, #818cf8 100%)',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            color: 'transparent',
+            textShadow: '0 0 80px rgba(129,140,248,0.35)',
+          }}
+        >
+          Julien Anquetil
+        </h1>
+        <p className="text-lg font-light text-indigo-200/90">
+          {profile.title} — <span className="text-cyan-300">{profile.yearsOfExperience}+ années en orbite</span>
+        </p>
+        <p className="mt-4 text-sm text-slate-400 leading-relaxed">{profile.tagline}</p>
+        <div className="mt-12 flex flex-col items-center gap-2 text-slate-500 text-xs tracking-[0.3em] uppercase">
+          Scrollez pour explorer
+          <span className="block w-px h-10 bg-gradient-to-b from-cyan-300/80 to-transparent" />
+        </div>
+      </section>
+
+      {/* Les trois systèmes, en sections empilées */}
+      {SYSTEMS.map((sys, s) => (
+        <section key={sys.title} className="px-4 pt-16">
+          <Reveal>
+            <div className="text-center mb-8 px-2">
+              <p className="text-[11px] tracking-[0.4em] uppercase mb-2" style={{ color: sys.color }}>
+                Système {String(s + 1).padStart(2, '0')}
+              </p>
+              <h2 className="text-3xl font-bold text-white">{sys.title}</h2>
+              <p className="text-sm text-slate-400 mt-2">{sys.subtitle}</p>
+            </div>
+          </Reveal>
+          <div className="space-y-5">
+            {SYS_META[s].bodyIdx.map((stopIdx, b) => (
+              <Reveal key={STOPS[stopIdx].label} delay={(b % 2) * 80}>
+                <div className={`${glass} p-5`}>
+                  <StopCard stop={STOPS[stopIdx]} pos={b + 1} count={SYS_META[s].count} />
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      ))}
+
+      {/* Contact */}
+      <section className="px-6 pt-24 pb-24 text-center">
+        <Reveal>
+          <p className="text-cyan-300/80 tracking-[0.4em] uppercase text-xs mb-5">Fin de transmission</p>
+          <h2 className="text-3xl font-bold leading-tight mb-8">
+            Prêt à lancer une{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-indigo-400">
+              nouvelle mission
+            </span>{' '}
+            ?
+          </h2>
+          <a
+            href={`mailto:${profile.email}`}
+            className="inline-block px-8 py-4 rounded-full bg-gradient-to-r from-cyan-400 to-indigo-500 text-[#05060f] font-bold hover:opacity-90 transition-opacity shadow-[0_0_50px_rgba(34,211,238,0.4)]"
+          >
+            {profile.email}
+          </a>
+          <div className="flex justify-center gap-6 mt-10 text-sm text-slate-400">
+            <a href={profile.github} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-200 transition-colors">
+              GitHub ↗
+            </a>
+            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-cyan-200 transition-colors">
+              LinkedIn ↗
+            </a>
+            <a href="/cv" target="_blank" className="hover:text-cyan-200 transition-colors">
+              CV ↗
+            </a>
+          </div>
+        </Reveal>
+      </section>
+    </div>
   )
 }
 
@@ -504,7 +634,7 @@ export default function Orbit3D() {
       // Décalage vers la gauche quand une fiche est affichée + léger zoom-out en voyage
       const sysEl = systemRef.current
       if (sysEl) {
-        const shift = dim.mobile ? 0 : -window.innerWidth * 0.13 * maxZone * (1 - outro)
+        const shift = dim.mobile ? 0 : -window.innerWidth * 0.16 * maxZone * (1 - outro)
         const warp = 1 - 0.08 * (1 - maxPresence)
         sysEl.style.transform = `translate3d(${shift}px, 0, 0) scale(${warp})`
       }
@@ -557,6 +687,11 @@ export default function Orbit3D() {
 
     const tick = () => {
       const total = wrapper.offsetHeight - window.innerHeight
+      // Scène masquée (parcours mobile actif) : on ne calcule rien
+      if (total <= 0) {
+        raf = requestAnimationFrame(tick)
+        return
+      }
       const chapter = total / (N - 1)
       const top = wrapper.getBoundingClientRect().top
       const scrolled = Math.min(Math.max(-top, 0), total)
@@ -648,7 +783,7 @@ export default function Orbit3D() {
       <nav
         ref={railRef}
         aria-label="Étapes du voyage"
-        className="fixed z-40 top-1/2 -translate-y-1/2 right-2 md:right-auto md:left-5 flex flex-col gap-2 md:gap-2.5"
+        className="fixed z-40 top-1/2 -translate-y-1/2 left-5 hidden md:flex flex-col gap-2.5"
         style={{ opacity: 0 }}
       >
         {STOPS.map((s, i) => {
@@ -689,8 +824,11 @@ export default function Orbit3D() {
         })}
       </nav>
 
-      {/* ── Scène orbitale épinglée, pilotée par le scroll ── */}
-      <div ref={wrapperRef} className="relative" style={{ height: `${STOPS.length * 70}vh` }}>
+      {/* ── Parcours mobile : sections linéaires, scroll natif ── */}
+      <MobileVoyage />
+
+      {/* ── Scène orbitale épinglée, pilotée par le scroll (desktop) ── */}
+      <div ref={wrapperRef} className="relative hidden md:block" style={{ height: `${STOPS.length * 70}vh` }}>
         <div className="sticky top-0 h-screen overflow-hidden">
           {/* Le voyage : soleil + systèmes successifs */}
           <div ref={systemRef} className="absolute inset-0 will-change-transform">
@@ -794,13 +932,13 @@ export default function Orbit3D() {
               return (
                 <div
                   key={`${stop.kind}-${stop.label}`}
-                  className="absolute left-4 right-8 bottom-5 md:left-auto md:right-[5vw] md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:w-[min(460px,38vw)]"
+                  className="absolute right-[4vw] top-1/2 -translate-y-1/2 w-[min(560px,42vw)]"
                 >
                   <div
                     ref={(el) => {
                       cardEls.current[i] = el
                     }}
-                    className={`${glass} p-5 sm:p-6 max-h-[50vh] md:max-h-[72vh] overflow-y-auto opacity-0 will-change-transform`}
+                    className={`${glass} p-6 sm:p-7 max-h-[76vh] overflow-y-auto opacity-0 will-change-transform`}
                     style={{ pointerEvents: 'none' }}
                   >
                     <StopCard stop={stop} pos={meta.bodyIdx.indexOf(i) + 1} count={meta.count} />
