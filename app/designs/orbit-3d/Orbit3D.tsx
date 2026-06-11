@@ -432,7 +432,10 @@ export default function Orbit3D() {
     // sinon les crans de la molette semblent ne rien faire (effet "site buggé")
     const ramp = (t: number) => t * t * (3 - 2 * t)
 
+    const t0 = performance.now()
+
     const render = (p: number) => {
+      const tSec = (performance.now() - t0) / 1000
       const journey = clamp01(p)
       const outro = clamp01(p - (N - 2))
 
@@ -469,7 +472,13 @@ export default function Orbit3D() {
         const nebula = nebulaEls.current[s]
         if (nebula) nebula.style.opacity = `${presence * (1 - 0.5 * outro)}`
 
-        const rot = (-(p - m.first) * Math.PI * 2) / m.count
+        // À l'arrivée dans un système, aucune planète au premier plan : décalage
+        // d'un demi-cran + lente dérive orbitale (rien n'est mis en avant).
+        // L'effet s'estompe en approchant de la première étape du système.
+        const arrivalness = clamp01(1 - Math.abs(p - m.arr) / 0.7)
+        const rot =
+          (-(p - m.first) * Math.PI * 2) / m.count +
+          arrivalness * (Math.PI / m.count + 0.22 * Math.sin(tSec * 0.5))
         m.bodyIdx.forEach((stopIdx, b) => {
           const el = planetEls.current[stopIdx]
           if (!el) return
@@ -502,10 +511,13 @@ export default function Orbit3D() {
 
       const sun = sunRef.current
       if (sun) {
-        const s = 1 + 0.35 * (1 - journey) + 0.5 * outro
-        sun.style.transform = `translate(-50%, -50%) scale(${s})`
-        // Pendant l'intro et l'outro, le soleil s'efface en halo derrière les titres
-        sun.style.opacity = `${0.3 + 0.7 * journey * (1 - outro)}`
+        // En intro et en outro, la photo se place au-dessus du texte ;
+        // pendant le voyage elle revient au centre du système
+        const introness = 1 - journey
+        const lift = (dim.mobile ? -0.22 : -0.3) * window.innerHeight
+        const y = (introness + outro) * lift
+        const s = 1 + 0.08 * introness + 0.12 * outro
+        sun.style.transform = `translate(-50%, -50%) translate3d(0px, ${y}px, 0) scale(${s})`
       }
 
       for (let s = 0; s < N; s++) {
@@ -708,8 +720,14 @@ export default function Orbit3D() {
                     ringEls.current[s] = el
                   }}
                   aria-hidden
-                  className="absolute left-0 top-0 rounded-full border border-dashed opacity-0"
-                  style={{ zIndex: 50, borderColor: `${sys.color}33`, transform: 'translate(-50%,-50%)' }}
+                  className="absolute left-0 top-0 border opacity-0"
+                  style={{
+                    zIndex: 50,
+                    // borderRadius 50% = vraie ellipse (rounded-full ferait une capsule)
+                    borderRadius: '50%',
+                    borderColor: `${sys.color}2e`,
+                    transform: 'translate(-50%,-50%)',
+                  }}
                 />
               ))}
 
