@@ -342,7 +342,7 @@ function StopCard({ stop, pos, count }: { stop: Stop; pos: number; count: number
       <>
         {header}
         {p.image && (
-          <div className="relative w-full h-32 sm:h-36 rounded-xl overflow-hidden mb-4">
+          <div className="relative w-full h-24 sm:h-24 rounded-xl overflow-hidden mb-3">
             <Image src={p.image} alt={p.name} fill className="object-cover opacity-90" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0c1c] via-transparent to-transparent" />
           </div>
@@ -365,15 +365,15 @@ function StopCard({ stop, pos, count }: { stop: Stop; pos: number; count: number
         ) : (
           <h3 className="text-xl sm:text-2xl font-bold text-white">{p.name}</h3>
         )}
-        <p className="text-sm text-slate-400 leading-relaxed mt-3">
+        <p className="text-sm text-slate-400 leading-relaxed mt-2">
           <RichText text={p.description} />
         </p>
-        <div className="flex flex-wrap gap-2 mt-4">
+        <div className="flex flex-wrap gap-2 mt-3">
           {p.technologies.map((tech) => (
             <TechChip key={tech} name={tech} variant="neutral" />
           ))}
         </div>
-        <Details label="Points clés" items={p.highlights} />
+        <Details label="Points clés" items={p.highlights.slice(0, 3)} />
       </>
     )
   }

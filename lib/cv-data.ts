@@ -149,15 +149,11 @@ export const projects: ProjectItem[] = [
   {
     name: 'Maison Opaline',
     description:
-      "Site vitrine et backoffice sur-mesure pour une décoratrice d'intérieur. Portfolio de réalisations en galerie éditoriale, blog WYSIWYG, devis en ligne multi-étapes et espace d'administration complet.",
+      "Site vitrine et backoffice sur-mesure pour une décoratrice d'intérieur : portfolio de réalisations, blog éditorial et devis en ligne multi-étapes.",
     highlights: [
-      'Front et backoffice en **Next.js 15** (App Router, Server Actions) avec **React 19**',
-      'Base **PostgreSQL** + **Prisma**, pipeline images **sharp** (suppression EXIF, AVIF/WebP responsives)',
-      'Backoffice sécurisé : authentification **argon2** + **JWT** (jose) en cookie httpOnly',
-      "Éditeur d'articles **Tiptap** WYSIWYG et galeries réordonnables au glisser-déposer",
-      'Devis multi-étapes et contact via **Resend** (e-mail + accusé de réception), sans persistance des leads',
-      'Analytics **Umami** auto-hébergé sans cookie — pas de bandeau de consentement',
-      'Déploiement **Docker Compose** derrière **Traefik** (TLS Let’s Encrypt)',
+      'Front et backoffice **Next.js 15** / **React 19** (App Router, Server Actions)',
+      '**PostgreSQL** + **Prisma**, images **sharp** (AVIF/WebP), auth **argon2** + **JWT**',
+      'Éditeur **Tiptap**, devis via **Resend**, analytics **Umami**, déploiement **Docker** / **Traefik**',
     ],
     technologies: ['Next.js', 'TypeScript', 'React.js', 'PostgreSQL', 'Prisma', 'Tailwind CSS', 'Docker'],
     category: 'Site vitrine & Backoffice',
@@ -198,7 +194,7 @@ export const projects: ProjectItem[] = [
     category: 'Application Web Full-Stack',
     link: null,
     company: 'Trinum',
-    image: null,
+    image: '/projects/skionlive.png',
   },
 ]
 
