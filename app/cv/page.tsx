@@ -1,86 +1,31 @@
 import Image from 'next/image'
 import { getTechLogo } from '@/lib/techLogos'
 import PrintButton from '@/components/PrintButton'
+import { profile, experiences, projects, skills, education } from '@/lib/cv-data'
 
-const experiences = [
-  {
-    title: 'Développeur Full-Stack',
-    company: 'Trinum',
-    location: 'Annecy',
-    period: 'Depuis sept. 2021',
-    type: 'CDI',
-    description: 'Seul développeur de l\'équipe, en charge du cycle complet : développement, infrastructure, mise en production et support.',
-    achievements: [
-      'Développement du backend en **Nest.js** avec architecture microservices',
-      'Mise en place serveur **WebSocket** (Socket.io) pour communication temps réel',
-      'Développement frontend **React.js** avec **TypeScript**, **Redux**, **TanStack**, **Mantine**',
-      'Automatisation CI/CD avec **GitLab CI**',
-      'Développement SkolBox (**Express.js**/**React**) avec scripts **PowerShell**'
-    ],
-    technologies: ['Nest.js', 'React.js', 'TypeScript', 'GitLab CI']
-  },
-  {
-    title: 'Développeur Full-Stack',
-    company: 'Freelance',
-    location: 'Rennes',
-    period: 'Mai 2020 - Fév. 2022',
-    type: 'Freelance',
-    achievements: [
-      'Application de génération de Leads (**Laravel**, **Vue.js**, **Node.js**)',
-      'Plateforme de mise en relation diagnostiqueurs immobiliers (**Symfony**)'
-    ],
-    technologies: ['Laravel', 'Vue.js', 'React.js', 'Python']
-  },
-  {
-    title: 'Développeur web',
-    company: 'Service d\'infrastructure de la Défense',
-    location: 'Brest',
-    period: 'Sept. 2020 - Juil. 2021',
-    type: 'Alternance',
-    achievements: [
-      'Application **React.js**/**Python** de cartographie des infrastructures',
-      'Identification des vulnérabilités cyber'
-    ],
-    technologies: ['React.js', 'Python']
-  }
-]
-
-const projects = [
-  {
-    name: 'Pledgr',
-    link: 'pledgr.fr',
-    description: 'Plateforme de fidélité pour restaurants',
-    tech: ['Next.js', 'TypeScript', 'PostgreSQL']
-  },
-  {
-    name: 'Le Ciselé',
-    link: 'lecisele.fr',
-    description: 'Site vitrine traiteur gastronomique',
-    tech: ['Next.js', 'TypeScript', 'Prisma']
-  },
-  {
-    name: 'SkiOnLive',
-    description: 'Plateforme diffusion stations de ski',
-    tech: ['Nest.js', 'React.js', 'WebSocket']
-  },
-  {
-    name: 'Livecam Trinum',
-    description: 'Refonte interfaces webcams',
-    tech: ['Next.js', 'TypeScript']
-  }
-]
-
-const skills = {
-  languages: ['TypeScript', 'PHP', 'Python', 'Java'],
-  frameworks: ['React.js', 'Next.js', 'Nest.js', 'Laravel', 'Vue.js'],
-  ops: ['Docker', 'Kubernetes', 'GitLab CI']
+// Rend les segments **entre doubles astérisques** en gras.
+function bold(text: string) {
+  return { __html: text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }
 }
 
-const education = [
-  { degree: 'MBA Développeur Full-Stack', school: 'MyDigitalSchool Annecy', period: '2021-2023' },
-  { degree: 'Bachelor Sécurité Informatique', school: 'Pôle Sup de la Salle Rennes', period: '2020-2021' },
-  { degree: 'BTS SIO', school: 'Pôle Sup de la Salle Rennes', period: '2018-2020' }
-]
+// Première phrase d'une description, pour la colonne latérale compacte.
+function firstSentence(text: string) {
+  const end = text.indexOf('. ')
+  return end === -1 ? text : text.slice(0, end + 1)
+}
+
+function hostOf(url: string) {
+  try {
+    return new URL(url).host
+  } catch {
+    return url
+  }
+}
+
+const [firstName, ...lastNameParts] = profile.name.split(' ')
+const lastName = lastNameParts.join(' ').toUpperCase()
+const githubHandle = profile.github.replace(/\/+$/, '').split('/').pop()
+const linkedinHandle = profile.linkedin.replace(/\/+$/, '').split('/').pop()
 
 export default function CVPage() {
   return (
@@ -95,24 +40,25 @@ export default function CVPage() {
               <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-gray-300 flex-shrink-0">
                 <Image
                   src="/profile.png"
-                  alt="Julien Anquetil"
+                  alt={profile.name}
                   fill
                   className="object-cover object-top"
                 />
               </div>
               <div className="flex-1">
-                <h1 className="text-3xl font-bold text-gray-900 mb-1">Julien ANQUETIL</h1>
-                <p className="text-lg text-gray-700 font-medium mb-2">Développeur Full-Stack</p>
+                <h1 className="text-3xl font-bold text-gray-900 mb-1">
+                  {firstName} {lastName}
+                </h1>
+                <p className="text-lg text-gray-700 font-medium mb-2">{profile.title}</p>
                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
-                  <span>✉️ julien@anquetil.org</span>
-                  <span>📍 Annecy, France</span>
-                  <span>🎂 25 ans</span>
+                  <span>✉️ {profile.email}</span>
+                  <span>📍 {profile.location}</span>
                 </div>
                 <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 mt-2">
                   <a href="https://julien.anquetil.org" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600">
                     🌐 julien.anquetil.org
                   </a>
-                  <a href="https://linkedin.com/in/julien-anquetil" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-blue-600">
+                  <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-blue-600">
                     <div className="relative w-3 h-3 flex-shrink-0">
                       <Image
                         src="/logo/linkedin.png"
@@ -121,9 +67,9 @@ export default function CVPage() {
                         className="object-contain"
                       />
                     </div>
-                    @julien-anquetil
+                    @{linkedinHandle}
                   </a>
-                  <a href="https://github.com/firling" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-blue-600">
+                  <a href={profile.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-blue-600">
                     <div className="relative w-3 h-3 flex-shrink-0">
                       <Image
                         src="/logo/github.png"
@@ -132,15 +78,12 @@ export default function CVPage() {
                         className="object-contain"
                       />
                     </div>
-                    @firling
+                    @{githubHandle}
                   </a>
                 </div>
               </div>
             </div>
-            <p className="text-sm text-gray-700 mt-3 leading-relaxed">
-              Plus de 5 ans d'expérience en conception et développement d'applications web complètes.
-              Expert en architecture logicielle, déploiement continu et optimisation des performances.
-            </p>
+            <p className="text-sm text-gray-700 mt-3 leading-relaxed">{profile.tagline}</p>
           </header>
 
           {/* Main content grid */}
@@ -163,13 +106,16 @@ export default function CVPage() {
                         <span className="text-xs text-gray-600 whitespace-nowrap">{exp.period}</span>
                       </div>
                       {exp.description && (
-                        <p className="text-gray-600 text-xs mb-1 italic">{exp.description}</p>
+                        <p
+                          className="text-gray-600 text-xs mb-1 italic"
+                          dangerouslySetInnerHTML={bold(exp.description)}
+                        />
                       )}
                       <ul className="space-y-0.5 mb-2">
                         {exp.achievements.map((achievement, j) => (
                           <li key={j} className="text-xs text-gray-700 flex gap-1">
                             <span className="text-blue-600">•</span>
-                            <span dangerouslySetInnerHTML={{ __html: achievement.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                            <span dangerouslySetInnerHTML={bold(achievement)} />
                           </li>
                         ))}
                       </ul>
@@ -212,7 +158,7 @@ export default function CVPage() {
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="font-bold text-gray-900">{edu.degree}</h3>
-                          <p className="text-xs text-gray-600">{edu.school}</p>
+                          <p className="text-xs text-gray-600">{edu.school} • {edu.location}</p>
                         </div>
                         <span className="text-xs text-gray-600 whitespace-nowrap">{edu.period}</span>
                       </div>
@@ -237,17 +183,17 @@ export default function CVPage() {
                       </h3>
                       {project.link && (
                         <a
-                          href={`https://${project.link}`}
+                          href={project.link}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-xs text-gray-500 hover:text-blue-600"
                         >
-                          {project.link}
+                          {hostOf(project.link)}
                         </a>
                       )}
-                      <p className="text-gray-600 mb-1">{project.description}</p>
+                      <p className="text-gray-600 mb-1">{firstSentence(project.description)}</p>
                       <div className="flex flex-wrap gap-1">
-                        {project.tech.map((tech, j) => {
+                        {project.technologies.map((tech, j) => {
                           const logo = getTechLogo(tech)
                           return (
                             <span
@@ -280,84 +226,38 @@ export default function CVPage() {
                   Compétences
                 </h2>
                 <div className="space-y-2">
-                  <div>
-                    <h3 className="text-xs font-semibold text-gray-700 mb-1">Langages</h3>
-                    <div className="flex flex-wrap gap-1">
-                      {skills.languages.map((lang, i) => {
-                        const logo = getTechLogo(lang)
-                        return (
-                          <span
-                            key={i}
-                            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-xs bg-gray-100 text-gray-700 rounded"
-                          >
-                            {logo && (
-                              <div className="relative w-2 h-2 flex-shrink-0">
-                                <Image
-                                  src={logo}
-                                  alt={lang}
-                                  fill
-                                  className="object-contain"
-                                />
-                              </div>
-                            )}
-                            {lang}
-                          </span>
-                        )
-                      })}
+                  {([
+                    ['Langages', skills.languages],
+                    ['Frameworks', skills.frameworks],
+                    ['DevOps', skills.ops],
+                  ] as const).map(([label, items]) => (
+                    <div key={label}>
+                      <h3 className="text-xs font-semibold text-gray-700 mb-1">{label}</h3>
+                      <div className="flex flex-wrap gap-1">
+                        {items.map((item, i) => {
+                          const logo = getTechLogo(item)
+                          return (
+                            <span
+                              key={i}
+                              className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-xs bg-gray-100 text-gray-700 rounded"
+                            >
+                              {logo && (
+                                <div className="relative w-2 h-2 flex-shrink-0">
+                                  <Image
+                                    src={logo}
+                                    alt={item}
+                                    fill
+                                    className="object-contain"
+                                  />
+                                </div>
+                              )}
+                              {item}
+                            </span>
+                          )
+                        })}
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <h3 className="text-xs font-semibold text-gray-700 mb-1">Frameworks</h3>
-                    <div className="flex flex-wrap gap-1">
-                      {skills.frameworks.map((fw, i) => {
-                        const logo = getTechLogo(fw)
-                        return (
-                          <span
-                            key={i}
-                            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-xs bg-gray-100 text-gray-700 rounded"
-                          >
-                            {logo && (
-                              <div className="relative w-2 h-2 flex-shrink-0">
-                                <Image
-                                  src={logo}
-                                  alt={fw}
-                                  fill
-                                  className="object-contain"
-                                />
-                              </div>
-                            )}
-                            {fw}
-                          </span>
-                        )
-                      })}
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-xs font-semibold text-gray-700 mb-1">DevOps</h3>
-                    <div className="flex flex-wrap gap-1">
-                      {skills.ops.map((op, i) => {
-                        const logo = getTechLogo(op)
-                        return (
-                          <span
-                            key={i}
-                            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-xs bg-gray-100 text-gray-700 rounded"
-                          >
-                            {logo && (
-                              <div className="relative w-2 h-2 flex-shrink-0">
-                                <Image
-                                  src={logo}
-                                  alt={op}
-                                  fill
-                                  className="object-contain"
-                                />
-                              </div>
-                            )}
-                            {op}
-                          </span>
-                        )
-                      })}
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </section>
 
@@ -367,18 +267,12 @@ export default function CVPage() {
                   Langues
                 </h2>
                 <div className="space-y-1 text-xs">
-                  <div className="flex justify-between">
-                    <span className="text-gray-700">Français</span>
-                    <span className="text-gray-600">Natif</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-700">Anglais</span>
-                    <span className="text-gray-600">C1</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-700">Espagnol</span>
-                    <span className="text-gray-600">Notions</span>
-                  </div>
+                  {skills.spoken.map((lang, i) => (
+                    <div key={i} className="flex justify-between">
+                      <span className="text-gray-700">{lang.name}</span>
+                      <span className="text-gray-600">{lang.level}</span>
+                    </div>
+                  ))}
                 </div>
               </section>
             </div>

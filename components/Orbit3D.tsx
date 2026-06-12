@@ -771,14 +771,6 @@ export default function Orbit3D() {
         />
       ))}
 
-      {/* Lien vers la version classique */}
-      <a
-        href="/designs/orbit"
-        className="fixed top-5 right-5 z-40 text-[11px] tracking-[0.2em] uppercase text-slate-500 hover:text-cyan-200 transition-colors"
-      >
-        Vue classique ↗
-      </a>
-
       {/* Rail de navigation : on sait toujours où on est */}
       <nav
         ref={railRef}
