@@ -176,7 +176,7 @@ export default function CVPage() {
                   Projets
                 </h2>
                 <div className="space-y-2">
-                  {projects.map((project, i) => (
+                  {projects.filter((p) => !p.cvHidden).map((project, i) => (
                     <div key={i} className="text-xs">
                       <h3 className="font-bold text-gray-900 text-sm">
                         {project.name}

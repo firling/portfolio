@@ -105,6 +105,8 @@ export interface ProjectItem {
   link: string | null
   company: string | null
   image: string | null
+  // Affiché sur le portfolio web mais volontairement absent du CV imprimable.
+  cvHidden?: boolean
 }
 
 export const projects: ProjectItem[] = [
@@ -143,6 +145,26 @@ export const projects: ProjectItem[] = [
     link: 'https://lecisele.fr',
     company: null,
     image: '/projects/le-cisele.png',
+  },
+  {
+    name: 'Maison Opaline',
+    description:
+      "Site vitrine et backoffice sur-mesure pour une décoratrice d'intérieur. Portfolio de réalisations en galerie éditoriale, blog WYSIWYG, devis en ligne multi-étapes et espace d'administration complet.",
+    highlights: [
+      'Front et backoffice en **Next.js 15** (App Router, Server Actions) avec **React 19**',
+      'Base **PostgreSQL** + **Prisma**, pipeline images **sharp** (suppression EXIF, AVIF/WebP responsives)',
+      'Backoffice sécurisé : authentification **argon2** + **JWT** (jose) en cookie httpOnly',
+      "Éditeur d'articles **Tiptap** WYSIWYG et galeries réordonnables au glisser-déposer",
+      'Devis multi-étapes et contact via **Resend** (e-mail + accusé de réception), sans persistance des leads',
+      'Analytics **Umami** auto-hébergé sans cookie — pas de bandeau de consentement',
+      'Déploiement **Docker Compose** derrière **Traefik** (TLS Let’s Encrypt)',
+    ],
+    technologies: ['Next.js', 'TypeScript', 'React.js', 'PostgreSQL', 'Prisma', 'Tailwind CSS', 'Docker'],
+    category: 'Site vitrine & Backoffice',
+    link: 'https://maisonopaline-interieur.fr',
+    company: null,
+    image: '/projects/maison-opaline.png',
+    cvHidden: true,
   },
   {
     name: 'Refonte Livecam Trinum',
